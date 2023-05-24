@@ -1,8 +1,7 @@
-using Microsoft.EntityFrameworkCore;
-using Domin.Contex;
 using Application.Services;
+using Domin.Contex;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +25,7 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v2", new OpenApiInfo { Title = "Version 2 for use in Mobile Application", Version = "v2" });
     c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 });
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
