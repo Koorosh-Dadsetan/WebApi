@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.Model.Request;
 using Application.Services;
-using Application.Model.Request;
-using Application.Model.Response;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.V1
 {
@@ -17,13 +16,13 @@ namespace WebApi.Controllers.V1
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] EmployeeSort? sort)
         {
-            return Ok(await _service.GetAll());
+            return Ok(await _service.GetAll(sort));
         }
 
-        [HttpGet("Search{text}")]
-        public async Task<IActionResult> Search(string text)
+        [HttpGet("Search")]
+        public async Task<IActionResult> Search(string? text)
         {
             return Ok(await _service.Search(text));
         }
