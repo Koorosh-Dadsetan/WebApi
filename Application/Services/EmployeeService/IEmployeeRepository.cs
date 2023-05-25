@@ -5,7 +5,7 @@ namespace Application.Services
 {
     public interface IEmployeeRepository
     {
-        Task<List<EmployeeResponse>> GetAll(EmployeeSort? employeeSort);
+        Task<List<EmployeeResponse>> GetAll(Pagination? pagination, Sort? sort);
         Task<List<EmployeeResponse>> Search(string? Text);
         Task<EmployeeResponse> GetEmployee(int id);
         Task<EmployeeResponse> Add(EmployeeRequest employeeRequest);

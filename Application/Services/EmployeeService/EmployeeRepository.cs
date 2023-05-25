@@ -59,56 +59,122 @@ namespace Application.Services
             return null;
         }
 
-        public async Task<List<EmployeeResponse>> GetAll(EmployeeSort? sort)
+        public async Task<List<EmployeeResponse>> GetAll(Pagination? pagination, Sort? sort)
         {
-            if (sort.Column != null || sort.Desc != null)
+            if (pagination.PageIndex != null && pagination.PageSize != null)
             {
-                if (sort.Desc == true)
+                if (sort.Column != null || sort.Desc != null)
                 {
-                    switch (sort.Column)
+                    if (sort.Desc == true)
                     {
-                        case "FullName":
-                            this._list = await _db.Employees.OrderByDescending(a => a.FullName).ToListAsync();
-                            break;
-                        case "Mobile":
-                            this._list = await _db.Employees.OrderByDescending(a => a.Mobile).ToListAsync();
-                            break;
-                        case "Age":
-                            this._list = await _db.Employees.OrderByDescending(a => a.Age).ToListAsync();
-                            break;
-                        case "Address":
-                            this._list = await _db.Employees.OrderByDescending(a => a.Address).ToListAsync();
-                            break;
-                        default:
-                            this._list = await _db.Employees.OrderByDescending(a => a.FullName).ToListAsync();
-                            break;
+                        switch (sort.Column)
+                        {
+                            case "FullName":
+                                this._list = await _db.Employees.OrderByDescending(a => a.FullName)
+                                    .Skip((int)pagination.PageIndex * (int)pagination.PageSize).Take((int)pagination.PageSize).ToListAsync();
+                                break;
+                            case "Mobile":
+                                this._list = await _db.Employees.OrderByDescending(a => a.Mobile)
+                                    .Skip((int)pagination.PageIndex * (int)pagination.PageSize).Take((int)pagination.PageSize).ToListAsync();
+                                break;
+                            case "Age":
+                                this._list = await _db.Employees.OrderByDescending(a => a.Age)
+                                    .Skip((int)pagination.PageIndex * (int)pagination.PageSize).Take((int)pagination.PageSize).ToListAsync();
+                                break;
+                            case "Address":
+                                this._list = await _db.Employees.OrderByDescending(a => a.Address)
+                                    .Skip((int)pagination.PageIndex * (int)pagination.PageSize).Take((int)pagination.PageSize).ToListAsync();
+                                break;
+                            default:
+                                this._list = await _db.Employees.OrderByDescending(a => a.FullName)
+                                    .Skip((int)pagination.PageIndex * (int)pagination.PageSize).Take((int)pagination.PageSize).ToListAsync();
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (sort.Column)
+                        {
+                            case "FullName":
+                                this._list = await _db.Employees.OrderBy(a => a.FullName)
+                                    .Skip((int)pagination.PageIndex * (int)pagination.PageSize).Take((int)pagination.PageSize).ToListAsync();
+                                break;
+                            case "Mobile":
+                                this._list = await _db.Employees.OrderBy(a => a.Mobile)
+                                    .Skip((int)pagination.PageIndex * (int)pagination.PageSize).Take((int)pagination.PageSize).ToListAsync();
+                                break;
+                            case "Age":
+                                this._list = await _db.Employees.OrderBy(a => a.Age)
+                                    .Skip((int)pagination.PageIndex * (int)pagination.PageSize).Take((int)pagination.PageSize).ToListAsync();
+                                break;
+                            case "Address":
+                                this._list = await _db.Employees.OrderBy(a => a.Address)
+                                    .Skip((int)pagination.PageIndex * (int)pagination.PageSize).Take((int)pagination.PageSize).ToListAsync();
+                                break;
+                            default:
+                                this._list = await _db.Employees.OrderBy(a => a.FullName)
+                                    .Skip((int)pagination.PageIndex * (int)pagination.PageSize).Take((int)pagination.PageSize).ToListAsync();
+                                break;
+                        }
                     }
                 }
                 else
                 {
-                    switch (sort.Column)
-                    {
-                        case "FullName":
-                            this._list = await _db.Employees.OrderBy(a => a.FullName).ToListAsync();
-                            break;
-                        case "Mobile":
-                            this._list = await _db.Employees.OrderBy(a => a.Mobile).ToListAsync();
-                            break;
-                        case "Age":
-                            this._list = await _db.Employees.OrderBy(a => a.Age).ToListAsync();
-                            break;
-                        case "Address":
-                            this._list = await _db.Employees.OrderBy(a => a.Address).ToListAsync();
-                            break;
-                        default:
-                            this._list = await _db.Employees.OrderBy(a => a.FullName).ToListAsync();
-                            break;
-                    }
+                    this._list = await _db.Employees
+                        .Skip((int)pagination.PageIndex * (int)pagination.PageSize).Take((int)pagination.PageSize).ToListAsync();
                 }
             }
             else
             {
-                this._list = await _db.Employees.ToListAsync();
+                if (sort.Column != null || sort.Desc != null)
+                {
+                    if (sort.Desc == true)
+                    {
+                        switch (sort.Column)
+                        {
+                            case "FullName":
+                                this._list = await _db.Employees.OrderByDescending(a => a.FullName).ToListAsync();
+                                break;
+                            case "Mobile":
+                                this._list = await _db.Employees.OrderByDescending(a => a.Mobile).ToListAsync();
+                                break;
+                            case "Age":
+                                this._list = await _db.Employees.OrderByDescending(a => a.Age).ToListAsync();
+                                break;
+                            case "Address":
+                                this._list = await _db.Employees.OrderByDescending(a => a.Address).ToListAsync();
+                                break;
+                            default:
+                                this._list = await _db.Employees.OrderByDescending(a => a.FullName).ToListAsync();
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (sort.Column)
+                        {
+                            case "FullName":
+                                this._list = await _db.Employees.OrderBy(a => a.FullName).ToListAsync();
+                                break;
+                            case "Mobile":
+                                this._list = await _db.Employees.OrderBy(a => a.Mobile).ToListAsync();
+                                break;
+                            case "Age":
+                                this._list = await _db.Employees.OrderBy(a => a.Age).ToListAsync();
+                                break;
+                            case "Address":
+                                this._list = await _db.Employees.OrderBy(a => a.Address).ToListAsync();
+                                break;
+                            default:
+                                this._list = await _db.Employees.OrderBy(a => a.FullName).ToListAsync();
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    this._list = await _db.Employees.ToListAsync();
+                }
             }
 
             var list = _mapper.Map<List<Employee>, List<EmployeeResponse>>(_list);

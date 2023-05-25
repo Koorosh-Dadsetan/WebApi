@@ -8,8 +8,14 @@ public class EmployeeRequest
     public string? Address { get; set; }
 }
 
-public class EmployeeSort
+public class Sort
 {
     public string? Column { get; set; }
     public bool? Desc { get; set; }
+}
+
+public class Pagination
+{
+    public int? PageSize { get; set; }
+    public int? PageIndex { get; set; }
 }

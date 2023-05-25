@@ -16,9 +16,9 @@ namespace WebApi.Controllers.V1
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] EmployeeSort? sort)
+        public async Task<IActionResult> GetAll([FromQuery] Pagination? pagination, [FromQuery] Sort? sort)
         {
-            return Ok(await _service.GetAll(sort));
+            return Ok(await _service.GetAll(pagination, sort));
         }
 
         [HttpGet("Search")]
