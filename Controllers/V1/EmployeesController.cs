@@ -16,16 +16,16 @@ namespace WebApi.Controllers.V1
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] Pagination? pagination, [FromQuery] Sort? sort)
+        public async Task<IActionResult> GetAll([FromQuery] Pagination? pagination, string? SearchText, [FromQuery] Sort? sort)
         {
-            return Ok(await _service.GetAll(pagination, sort));
+            return Ok(await _service.GetAll(pagination, SearchText, sort));
         }
 
-        [HttpGet("Search")]
-        public async Task<IActionResult> Search(string? text)
-        {
-            return Ok(await _service.Search(text));
-        }
+        //[HttpGet("Search")]
+        //public async Task<IActionResult> Search(string? text)
+        //{
+        //    return Ok(await _service.Search(text));
+        //}
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEmployee(int id)
