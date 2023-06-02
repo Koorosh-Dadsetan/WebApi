@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Domin.Contex;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApi.Controllers.V1
 {
@@ -7,6 +9,12 @@ namespace WebApi.Controllers.V1
     [ApiVersion("1.0")]
     public class ValuesController : ControllerBase
     {
+        private readonly TestDbContext _db;
+        public ValuesController(TestDbContext testDbContext)
+        {
+            _db = testDbContext;
+        }
+
         [HttpGet]
         public IActionResult Get()
         {
@@ -16,32 +24,14 @@ namespace WebApi.Controllers.V1
         [HttpGet("Test")]
         public IActionResult Test()
         {
-            List<TestModel> testModel = new List<TestModel>();
-            testModel.Add(new TestModel() { Desc = null, Column = null });
-
-            if (testModel.Count == 0)
-            {
-                testModel.Add(new TestModel() { Desc = false, Column = "FullName" });
-            }
-
-            testModel.Add(new TestModel() { Desc = true, Column = "Age" });
-            testModel.Add(new TestModel() { Desc = true, Column = "Address" });
-            testModel.Add(new TestModel() { Desc = null, Column = "Mobile" });
-
-            List<TestModel> model2 = new List<TestModel>();
-
-            foreach (var model in testModel)
-            {
-                model2.Add(model);
-            }
-
-            return Ok(model2);
+            var ds = _db.Employees.FromSql($"SELECT * FROM Employees").ToList();
+            return Ok(ds);
         }
-    }
 
-    public class TestModel
-    {
-        public bool? Desc { get; set; }
-        public string? Column { get; set; }
+        [HttpGet("AccBankBranch")]
+        public IActionResult AccBankBranch()
+        {
+            return BadRequest("شعبه بانک یافت نشد");
+        }
     }
 }
